@@ -1,0 +1,112 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/show_Linear"
+    tools:context=".MainActivity">
+    <LinearLayout
+        android:id="@+id/viewLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:layout_weight="1">
+        <view class="kr.ac.kumoh.s20150088.imagepdf.MyView"
+            android:id="@+id/my_view_img"
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_weight="1"
+            />
+    </LinearLayout>
+
+
+    <!--<TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ResultText"
+        android:layout_gravity="center"
+        android:gravity="center"
+
+        android:text="서버로부터의 응답메시지가 이곳에 출력됩니다 "
+        />-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnSend"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:backgroundTint="#8BC34A"
+            android:text="Upload Image" />
+
+        <Button
+            android:id="@+id/btnSendBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:backgroundTint="#8BC34A"
+            android:enabled="false"
+            android:text="Upload Box" />
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/leftAdd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="#8BC34A"
+            android:enabled="false"
+            android:text="leftAdd"
+            android:textSize="10sp" />
+
+        <Button
+            android:id="@+id/leftSub"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="#8BC34A"
+            android:enabled="false"
+            android:text="leftSub"
+            android:textSize="10sp" />
+
+        <Button
+            android:id="@+id/rightSub"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="#8BC34A"
+            android:enabled="false"
+            android:text="rightSub"
+            android:textSize="10sp" />
+
+        <Button
+            android:id="@+id/rightAdd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="#8BC34A"
+            android:enabled="false"
+            android:text="rightAdd"
+            android:textSize="10sp" />
+
+    </LinearLayout>
+
+
+</LinearLayout>
+

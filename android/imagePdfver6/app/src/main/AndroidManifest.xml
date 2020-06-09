@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="kr.ac.kumoh.s20150088.imagepdf">
+    <!-- camera, gallery -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".pdfocrResultActivity"/>
+        <activity android:name=".DocumentActivity" />
+        <activity android:name=".FriendActivity" />
+        <activity android:name=".ocrResultActivity" />
+        <activity android:name=".RegisterActivity" />
+        <activity android:name=".LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".showPdfActivity" />
+        <activity android:name=".showImageActivity" />
+        <activity android:name=".MainActivity" /> <!-- 사진 촬영을 위한 provide -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="kr.ac.kumoh.s20150088.imagePdf.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
+
+        <meta-data
+            android:name="pspdfkit_license_key"
+            android:value="zuIP5uJ6YlilRJrI8YKEdl4-hzoESPLxWsAfgaQQ_Q7Ek7KNwQEMKFqEjcAKOo2cpoeE1gIp9HcZMpqXkIKFz7rxl2vkAw_xSQcxMHvpEDvN2nT-TuDvDaCsRnlOVwELMYiTVTvikxX3dWqhw1_wYyOLzaffkxu-PQiGny4heMGMazJjJ-SJyswaBI2ZstDEzN9s6AXuFHxSn8KamXj0tNnvwqaALVqqLa5WcTmNQ5stL7Q9Suu5QU1exwcGriprmHE3UyEDH58bPJCl9_iae3PCbaQPH2aVXXfnyTg1HbLQE902PVuNUOWHDJB-Z_142a2hWeNdRnZR42IN_oNwopswk57XoLMS9wmXP8QDjpMl4pYKl1oqjN4dHpZ4_TPKl0AZ6OgrNTepYFg9Bgx8WYE3gFLcst8WuqA3P71PS9bJ9usuuzCxGioeXYq4y5R_" />
+    </application>
+
+</manifest>
