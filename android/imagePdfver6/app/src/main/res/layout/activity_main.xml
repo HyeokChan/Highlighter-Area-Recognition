@@ -1,0 +1,75 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context=".MainActivity"
+    android:background="#FFF">
+
+
+
+<!--
+    <TextView
+        android:id="@+id/tvEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="파일 저장을 위해 로그인이 필요합니다."
+        android:textSize="20dp"
+        android:gravity="center"
+        />
+-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFF"
+        android:orientation="horizontal">
+        <at.markushi.ui.CircleButton
+            android:id="@+id/btnGallery"
+            android:layout_width="64dip"
+            android:layout_height="64dip"
+            android:layout_weight="1"
+            android:src="@drawable/ic_photo_library_black_24dp"
+            app:cb_color="#3E9142"
+            android:text="Gallery"
+            app:cb_pressedRingWidth="8dip" />
+
+        <at.markushi.ui.CircleButton
+            android:id="@+id/btnCamera"
+            android:layout_width="64dip"
+            android:layout_height="64dip"
+            android:layout_weight="1"
+            android:src="@drawable/ic_camera_alt_black_24dp"
+            app:cb_color="#8BC34A"
+            app:cb_pressedRingWidth="8dip" />
+
+        <at.markushi.ui.CircleButton
+            android:id="@+id/btnPdf"
+            android:layout_width="64dip"
+            android:layout_height="64dip"
+            android:layout_weight="1"
+            android:src="@drawable/ic_picture_as_pdf_black_24dp"
+            app:cb_color="#CDDC39"
+            app:cb_pressedRingWidth="8dip" />
+
+        <at.markushi.ui.CircleButton
+            android:id="@+id/btnFriend"
+            android:layout_width="64dip"
+            android:layout_height="64dip"
+            android:layout_weight="1"
+            android:src="@drawable/ic_people_black_24dp"
+            app:cb_color="#009688"
+            app:cb_pressedRingWidth="8dip" />
+
+    </LinearLayout>
+
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvDocumentList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+
+</LinearLayout>

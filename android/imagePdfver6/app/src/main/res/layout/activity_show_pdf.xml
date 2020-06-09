@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".showPdfActivity">
+
+    <!--<ImageView
+        android:id="@+id/pdfPageView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@android:color/white"
+        android:scaleType="fitCenter"
+        android:contentDescription="@null"/>-->
+
+    <view class="kr.ac.kumoh.s20150088.imagepdf.MyView"
+        android:id="@+id/my_view_pdf"
+        android:scaleType="fitCenter"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:scrollbars="vertical"
+        android:layout_weight="1"
+        />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:measureWithLargestChild="true"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/pdfuploadbtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#FFFFFF"
+            android:textColor="#000"
+            android:textSize="10sp"
+            android:text="박스 수정 완료"
+            android:enabled="false"/>
+        <Button
+            android:id="@+id/finishBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="10sp"
+            android:background="#FFFFFF"
+            android:textColor="#000"
+            android:text="OCR 결과 보기"
+            android:enabled="false"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:measureWithLargestChild="true"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/previousButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#FFFFFF"
+            android:src="@drawable/pspdf__ic_chevron_left"
+            android:text="previous"/>
+
+        <!--<Button
+            android:id="@+id/btnSend"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#FFFFFF"
+            android:text="choose" />
+        -->
+        <at.markushi.ui.CircleButton
+            android:id="@+id/btnSend"
+            android:layout_width="64dip"
+            android:layout_height="64dip"
+            android:layout_weight="1"
+            android:background="#FFFFFF"
+            android:src="@drawable/pspdf__ic_freetext"
+            app:cb_color="#8BC34A"
+            app:cb_pressedRingWidth="8dip" />
+        <ImageButton
+            android:id="@+id/nextButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#FFFFFF"
+            android:src="@drawable/pspdf__ic_chevron_right"
+            android:text="next" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/leftAdd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="10sp"
+            android:text="leftAdd"
+            android:background="#FFFFFF"
+            android:textColor="#000"
+            android:enabled="false"/>
+        <Button
+            android:id="@+id/leftSub"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="10sp"
+            android:text="leftSub"
+            android:background="#FFFFFF"
+            android:textColor="#000"
+            android:enabled="false"/>
+
+        <Button
+            android:id="@+id/rightSub"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="10sp"
+            android:text="rightSub"
+            android:background="#FFFFFF"
+            android:textColor="#000"
+            android:enabled="false"/>
+        <Button
+            android:id="@+id/rightAdd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="10sp"
+            android:background="#FFFFFF"
+            android:textColor="#000"
+            android:text="rightAdd"
+            android:enabled="false"/>
+    </LinearLayout>
+
+</LinearLayout>
