@@ -28,6 +28,7 @@ class friendListFragment:Fragment() {
     companion object{
         const val SERVER_URL="http://bustercallapi.r-e.kr/"
     }
+
     lateinit var mQueue: RequestQueue
     var mResult: JSONObject? = null
     var mArray = ArrayList<String>()
@@ -76,7 +77,8 @@ class friendListFragment:Fragment() {
 
         return  view
     }
-
+    // 친구 요청 다이얼로그 YES 클릭 메소드
+    // 서버로 요청한 친구 이메일과 본인의 정보를 전송
     fun positive(){
         val url = SERVER_URL+"friend_request"
         val params = HashMap<String, String>()
@@ -96,7 +98,8 @@ class friendListFragment:Fragment() {
             })
         Volley.newRequestQueue(context).add(request)
     }
-
+    // 현재 친구 리스트 요청
+    // Response : 친구 리스트
     fun requestFreindList(){
         val url = SERVER_URL+"friend_list"
         val params = HashMap<String, String>()
@@ -109,7 +112,7 @@ class friendListFragment:Fragment() {
                 if(response.getString("result").equals("success")){
                     Log.i("success!!",response.toString())
                     mResult = response
-                    drawList()
+                    drawFriendList()
                 }
             },
             Response.ErrorListener {error->
@@ -118,7 +121,8 @@ class friendListFragment:Fragment() {
         Volley.newRequestQueue(context).add(request)
     }
 
-    fun drawList(){
+    // 응답으로 온 친구리스트 파싱 후 리사이클러뷰에 적용
+    fun drawFriendList(){
         mArray.clear()
         if(!mResult?.getString("friendList").equals("not exist")){
             val items = mResult?.getJSONArray("friendList")
@@ -131,7 +135,7 @@ class friendListFragment:Fragment() {
         }
         mAdapter.notifyDataSetChanged()
     }
-
+    // 친구리스트를 위한 리싸이클러뷰를 위한 어댑터
     inner class friendListAdapter() : RecyclerView.Adapter<friendListAdapter.ViewHolder>(){
         inner class ViewHolder : RecyclerView.ViewHolder, View.OnClickListener{
             val tvEmail : TextView

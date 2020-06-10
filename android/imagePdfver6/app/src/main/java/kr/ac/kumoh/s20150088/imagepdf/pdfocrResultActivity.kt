@@ -22,15 +22,10 @@ import java.net.URL
 
 class pdfocrResultActivity : AppCompatActivity() {
 
-    //    lateinit var dataArrayList : ArrayList<String>
-//    lateinit var urlArrayList : ArrayList<String>
+    //PDF에 대한 ocr 결과 액티비티
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pdfocr_result)
-        for(i in 0 until ocr_result_ary.size)
-        {
-            Log.i("어레이리스트 확인", ocr_result_ary[i])
-        }
         var mAdapter = documentListAdapter(ocr_result_ary)
         pdf_res_rc.apply {
             setHasFixedSize(true)
@@ -45,7 +40,7 @@ class pdfocrResultActivity : AppCompatActivity() {
         }
 
     }
-
+    //PDF OCR 결과 리싸이클러뷰를 위한 어댑터
     class documentListAdapter(val data:ArrayList<String>) : RecyclerView.Adapter<documentListAdapter.ViewHolder>(){
         inner class ViewHolder : RecyclerView.ViewHolder, View.OnClickListener{
             val tvTitle : TextView
