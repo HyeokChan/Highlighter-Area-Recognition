@@ -19,6 +19,7 @@ class DocumentActivity : AppCompatActivity() {
         var docSt = MainActivity.docConArray[intent.getIntExtra("position",-1)].replace("[","").replace("]","")
         tvDoc.text = docSt
     }
+
     fun StringToBitmap(encodedString: String?): Bitmap? {
         return try {
             val encodeByte =

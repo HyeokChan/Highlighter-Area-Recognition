@@ -35,7 +35,7 @@ class showPdfActivity : AppCompatActivity() {
         lateinit var documentUri : Uri
         lateinit var document : PdfDocument
         var pageIndex = 0
-        //서버 통신
+
         private val SERVER_URL: String = "http://bustercallapi.r-e.kr/"
         lateinit var mQueue: RequestQueue
         var mResult: JSONObject? = null
@@ -45,8 +45,6 @@ class showPdfActivity : AppCompatActivity() {
     private var imageData: ByteArray? = null
     lateinit var myView:MyView
     var filename:String? = null
-    var view_height : Int = 0
-    var file_index : Int = 0
     var rotatedBitmap: Bitmap? = null
     lateinit var etFilename: EditText
     var userInputFilename = ""
@@ -126,111 +124,24 @@ class showPdfActivity : AppCompatActivity() {
                 }
             }
             Toast.makeText(this, "ocr 결과 저장완료!!", Toast.LENGTH_SHORT).show()
+            pdfuploadbtn.isEnabled = false;
             uploadBox(boxSt)
         }
         finishBtn.setOnClickListener {
 
             val resultIntent:Intent = Intent(this,pdfocrResultActivity::class.java)
-//            resultIntent.putExtra("ocr",ocr_result_ary)
-//            resultIntent.putExtra("img_url", ocr_img_ary)
             startActivity(resultIntent)
         }
     }
 
-    fun uploadBox(boxSt:String){
-        mResult = null
-        val url = SERVER_URL +"ocr"
-        val params = HashMap<String, String?>()
-        params.put("filename",filename)
-        params.put("box",boxSt)
-        params.put("uuid",LoginActivity.idByANDROID_ID)
-        var jsonObj = JSONObject(params as Map<*, *>)
-        var request: JsonObjectRequest = JsonObjectRequest(Request.Method.POST,url,jsonObj,
-            Response.Listener {response->
-                mResult = response
-                ResponseParsing()
-            },
-            Response.ErrorListener {error->
-                Log.i("fail!!",error.toString())
-            })
-        Volley.newRequestQueue(this).add(request)
-    }
-
-    private fun ResponseParsing() {
-        val items = mResult?.getString("output")
-        val ParsingRes = items.toString().replace("\"","").replace(",","").replace("[","").replace("]","")
-        Log.i("업로드 박스",ParsingRes)
-        ocr_result_ary.add(ParsingRes)
-    }
+    // 1) 저장소 접근
     private fun launchSystemFilePicker() {
         val openIntent = Intent(Intent.ACTION_OPEN_DOCUMENT)
         openIntent.addCategory(Intent.CATEGORY_OPENABLE)
         openIntent.type = "application/*"
         startActivityForResult(openIntent, OPEN_DOCUMENT_REQUEST_CODE)
     }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == OPEN_DOCUMENT_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
-            val uri = data.data
-            //documentUri = Uri.parse(uri.toString())
-            if(uri != null) {
-                //prepareAndShowDocument(uri);
-                document = PdfDocumentLoader.openDocument(this, uri)
-                showPdf()
-            }
-        }
-
-    }
-
-    private fun showPdf() {
-        // Page size is in PDF points (not pixels).
-        val pageSize : Size = document.getPageSize(pageIndex)
-        // We define a target width for the resulting bitmap and use it to calculate the final height.
-        val width = 1024
-        val height = (pageSize.height * (width / pageSize.width)).toInt()
-
-        // This will render the first page uniformly into a bitmap with a width of 2,048 pixels.
-        val pageBitmap : Bitmap = document.renderPageToBitmap(this, pageIndex, width, height)
-        //이미지 전송을 위한 bitmap 바이트 배열 변환
-        imageData = bitmapToByteArray(pageBitmap)
-        rotatedBitmap = pageBitmap
-        MyView.bmp = pageBitmap
-        my_view_pdf.invalidate()
-    }
-
-    fun bitmapToByteArray(bitmap: Bitmap) : ByteArray{
-        var stream: ByteArrayOutputStream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-        var byteArray:ByteArray = stream.toByteArray()
-        return byteArray
-    }
-
-    private fun uploadImage(){
-        imageData?: return
-        val url = SERVER_URL+"getImage"
-        val request = object : VolleyFileUploadRequest(
-            Request.Method.POST,
-            url,
-            Response.Listener {
-                mResult = JSONObject(String(it.data))
-                Log.i("response",mResult.toString())
-                drawList()
-            },
-            Response.ErrorListener {
-                println("오류 : $it")
-            }
-
-        ) {
-            override fun getByteData(): MutableMap<String, FileDataPart> {
-                var params = HashMap<String, FileDataPart>()
-                params["image"] = FileDataPart(userInputFilename+"_resized.jpg", imageData!!, "jpg")
-                return params
-            }
-        }
-        mQueue = Volley.newRequestQueue(this)
-        mQueue.add(request)
-    }
+    // 2) 파일 이름 다이얼로그
     fun inputFilename(){
         var dialog = AlertDialog.Builder(this)
         etFilename = EditText(this)
@@ -250,23 +161,86 @@ class showPdfActivity : AppCompatActivity() {
         dialog.setPositiveButton("YES",dialog_listener)
         dialog.show()
     }
-    private fun drawList() {
+
+    // 3) 저장소에서 다시 돌아왔을 때 절대경로로부터 PdfDocument 객체에 담기
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == OPEN_DOCUMENT_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
+            val uri = data.data
+            if(uri != null) {
+                document = PdfDocumentLoader.openDocument(this, uri)
+                showPdf()
+            }
+        }
+    }
+
+    // 4) 저장소로 부터 가져온 PDF 파일 비트맵 렌더링 후 뷰에 적용
+    private fun showPdf() {
+
+        val pageSize : Size = document.getPageSize(pageIndex)
+        val width = 1024
+        val height = (pageSize.height * (width / pageSize.width)).toInt()
+
+        val pageBitmap : Bitmap = document.renderPageToBitmap(this, pageIndex, width, height)
+        //이미지 전송을 위한 bitmap 바이트 배열 변환
+        imageData = bitmapToByteArray(pageBitmap)
+        rotatedBitmap = pageBitmap
+        MyView.bmp = pageBitmap
+        my_view_pdf.invalidate()
+    }
+    // 5) POST 통신으로 이미지를 서버로 전송하기 위한 비트맵 바이트어레이로 변환 메소드
+    fun bitmapToByteArray(bitmap: Bitmap) : ByteArray{
+        var stream: ByteArrayOutputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+        var byteArray:ByteArray = stream.toByteArray()
+        return byteArray
+    }
+
+
+    // 6)저장소로부터 얻어온 PDF 이미지를 서버통신으로 전송하는 메소드
+    // Response : 박스 좌표
+    private fun uploadImage(){
+        imageData?: return
+        val url = SERVER_URL+"getImage"
+        val request = object : VolleyFileUploadRequest(
+            Request.Method.POST,
+            url,
+            Response.Listener {
+                mResult = JSONObject(String(it.data))
+                Log.i("response",mResult.toString())
+                drawbox()
+            },
+            Response.ErrorListener {
+                println("오류 : $it")
+            }
+
+        ) {
+            override fun getByteData(): MutableMap<String, FileDataPart> {
+                var params = HashMap<String, FileDataPart>()
+                params["image"] = FileDataPart(userInputFilename+"_resized.jpg", imageData!!, "jpg")
+                return params
+            }
+        }
+        mQueue = Volley.newRequestQueue(this)
+        mQueue.add(request)
+    }
+
+    // 7) 박스 좌표를 파싱, 응답으로 온 URL을 이미지로 변경하여 View에 적용하고 박스 그리기
+    private fun drawbox() {
         val items = mResult?.getString("box")//json 파일의 list 배열을 가지고 와서 items에 넣어라
         filename = mResult?.getString("filename")
-        //Log.i("filename 데이터", filename.toString())
+
         Log.i("JSON 데이터", items.toString() )
         val ocrText = items.toString()
         val resText = ocrText.replace("\"","").replace("\n","").replace(",","").replace("[","").replace("]","")
-        //ResultText.setText(resText)
         val res_img = mResult?.getString("url")
         var image_task: URLtoBitmapTask = URLtoBitmapTask()
         image_task = URLtoBitmapTask().apply {
             url = URL(res_img)
         }
-
         val task_bmp = image_task.execute().get()
         MyView.bmp = task_bmp
-        ocr_img_ary.add(task_bmp)
+        ocr_img_ary.add(task_bmp) // 비트맵 추가
         MyView.rect.clear()
         if(!resText.equals("")){
             var s = resText.split(" ")
@@ -294,28 +268,32 @@ class showPdfActivity : AppCompatActivity() {
             Toast.makeText(this,"형광펜 영역이 없습니다.",Toast.LENGTH_LONG).show()
         }
     }
+    // 8) 사용자가 박스 수정 후 수정된 박스 좌표에 대한 OCR 서버 통신 요청 메소드
+    // Response : 수정된 박스 영역에 대한 OCR 결과
+    fun uploadBox(boxSt:String){
+        mResult = null
+        val url = SERVER_URL +"ocr"
+        val params = HashMap<String, String?>()
+        params.put("filename",filename)
+        params.put("box",boxSt)
+        params.put("uuid",LoginActivity.idByANDROID_ID)
+        var jsonObj = JSONObject(params as Map<*, *>)
+        var request: JsonObjectRequest = JsonObjectRequest(Request.Method.POST,url,jsonObj,
+            Response.Listener {response->
+                mResult = response
+                ResponseOCRParsing()
+            },
+            Response.ErrorListener {error->
+                Log.i("fail!!",error.toString())
+            })
+        Volley.newRequestQueue(this).add(request)
+    }
 
-/*    override fun onWindowFocusChanged(hasFocus: Boolean) {
-        view_height = my_view_pdf.height
-        view_width = my_view_pdf.width
-        var rotate_height = rotatedBitmap!!.height
-        var ratio_h = view_height.toFloat() / rotate_height.toFloat()
-        var widthTest = rotatedBitmap!!.width * ratio_h
+    // 9) 수정된 박스영역에 대한 ocr 결과 파싱
+    private fun ResponseOCRParsing() {
+        val items = mResult?.getString("output")
+        val ParsingRes = items.toString().replace("\"","").replace(",","").replace("[","").replace("]","")
+        ocr_result_ary.add(ParsingRes)
+    }
 
-        var rotate_width = rotatedBitmap!!.width
-        var ratio_w = view_width.toFloat() / rotate_width.toFloat()
-        var heightTest = rotatedBitmap!!.height*ratio_w
-        var resized:Bitmap
-        if(heightTest.toInt() > view_height){
-            resized = Bitmap.createScaledBitmap(rotatedBitmap!!, widthTest.toInt(), view_height, false)
-        }
-        else{
-            resized = Bitmap.createScaledBitmap(rotatedBitmap!!, view_width, heightTest.toInt(), false)
-        }
-        imageData = bitmapToByteArray(resized!!)
-
-        MyView.rect.clear()
-        MyView.bmp = resized
-        my_view_pdf.invalidate()
-    }*/
 }

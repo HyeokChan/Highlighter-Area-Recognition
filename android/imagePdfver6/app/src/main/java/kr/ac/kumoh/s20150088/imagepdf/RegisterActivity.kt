@@ -25,7 +25,7 @@ class RegisterActivity : AppCompatActivity() {
     }
     lateinit var mQueue: RequestQueue
     var mResult: JSONObject? = null
-
+    //회원가입 액티비티
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
