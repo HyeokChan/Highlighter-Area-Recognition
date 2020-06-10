@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        //tedPermission()
+        tedPermission()
 
 
         btnGallery.setOnClickListener {
@@ -72,10 +72,6 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this,FriendActivity::class.java)
             startActivity(intent)
         }
-        /*btnLogin.setOnClickListener {
-            val intent:Intent = Intent(this,LoginActivity::class.java)
-            startActivity(intent)
-        }*/
 
         rvDocumentList.apply {
             setHasFixedSize(true)
@@ -87,7 +83,7 @@ class MainActivity : AppCompatActivity() {
         requestDocument()
 
     }
-
+    //내가 작성한 문서에 대한 서버 통신
     fun requestDocument(){
         val url = SERVER_URL+"content_list"
         val params = HashMap<String, String>()
@@ -99,7 +95,7 @@ class MainActivity : AppCompatActivity() {
                 Log.i("success!!do",response.toString())
                 if(response.getString("result").equals("success")){
                     mResult = response
-                    drawList()
+                    drawDocument()
                 }
             },
             Response.ErrorListener {error->
@@ -110,21 +106,11 @@ class MainActivity : AppCompatActivity() {
         Volley.newRequestQueue(this).add(request)
 
     }
-
-    fun drawList(){
+    //서버통신으로 받아온 응답 파싱 후 리사이클러뷰에 적용
+    fun drawDocument(){
         mArray.clear()
         docConArray.clear()
         imageStArray.clear()
-        /*if(!mResult?.getString("friendList").equals("not exist")){
-            val items = mResult?.getJSONArray("friendList")
-            for(i in 0 until items!!.length()){
-                mArray.add(items.getJSONObject(i).getString("friend_email"))
-            }
-        }
-        else{
-            mArray.add(" - ")
-        }*/
-
         val items = mResult?.getJSONArray("my_content")
         for(i in 0 until items!!.length()){
             mArray.add(items.getJSONObject(i).getString("doc_name"))
@@ -134,7 +120,7 @@ class MainActivity : AppCompatActivity() {
         loadingEnd()
         mAdapter.notifyDataSetChanged()
     }
-
+    //저장되어있는 ocr 문서 리싸이클러뷰를 위한 어댑터
     inner class documentListAdapter() : RecyclerView.Adapter<documentListAdapter.ViewHolder>(){
         inner class ViewHolder : RecyclerView.ViewHolder, View.OnClickListener{
             val tvTitle : TextView
@@ -158,12 +144,14 @@ class MainActivity : AppCompatActivity() {
             return ViewHolder(root)
         }
         override fun onBindViewHolder(holder: documentListAdapter.ViewHolder, position: Int) {
-            holder.tvTitle.text = mArray[position]
+            holder.tvTitle.text = mArray[position].split("_")[0]
             var imageStTemp = imageStArray[position].replace("\n","")
             var imageSt = String(Base64.decode(imageStTemp,0))
             holder.thumbnail.setImageBitmap(StringToBitmap(imageSt))
         }
     }
+
+    //응답으로 온 썸네일 바이트어레이 스트링을를 비트맵으로 변환
     fun StringToBitmap(encodedString: String?): Bitmap? {
         return try {
             val encodeByte =
@@ -174,8 +162,8 @@ class MainActivity : AppCompatActivity() {
             null
         }
     }
+    //로딩
     fun loading() {
-        //로딩
         android.os.Handler().postDelayed(
             {
                 progressDialog = ProgressDialog(this)
@@ -190,7 +178,7 @@ class MainActivity : AppCompatActivity() {
             { progressDialog.dismiss() }, 0
         )
     }
-
+    //저장소 및 사진에 접근권한 검사
     private fun tedPermission() {
         var permissionListener : PermissionListener = object : PermissionListener {
             override fun onPermissionGranted() {

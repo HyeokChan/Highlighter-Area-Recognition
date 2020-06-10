@@ -57,7 +57,7 @@ class requestRecvFragment:Fragment() {
 
         return view
     }
-
+    //친구 요청한 리스트에 대한 서버 통신 요청
     fun requestRequest(){
         val url = SERVER_URL+"friend_list"
         val params = HashMap<String, String>()
@@ -71,7 +71,7 @@ class requestRecvFragment:Fragment() {
                 if(response.getString("result").equals("success")){
                     Log.i("success!!rque",response.toString())
                     mResult = response
-                    drawListRequest()
+                    drawRequest()
                 }
             },
             Response.ErrorListener {error->
@@ -79,8 +79,8 @@ class requestRecvFragment:Fragment() {
             })
         Volley.newRequestQueue(context).add(request)
     }
-
-    fun drawListRequest(){
+    //응답으로 온 친구 요청한 리스트 파싱 후 리사이클러뷰에 적용
+    fun drawRequest(){
         mArrayRequest.clear()
         if(!mResult?.getString("friendList").equals("not exist")){
             val items = mResult?.getJSONArray("friendList")
@@ -93,7 +93,7 @@ class requestRecvFragment:Fragment() {
         }
         mAdapterRequest.notifyDataSetChanged()
     }
-
+    //응답으로 온 친구 요청한 리스트 리사이클러뷰 어댑터
     inner class requestAdapter() : RecyclerView.Adapter<requestAdapter.ViewHolder>(){
         inner class ViewHolder : RecyclerView.ViewHolder, View.OnClickListener{
             val tvEmail : TextView
@@ -117,6 +117,7 @@ class requestRecvFragment:Fragment() {
         override fun onBindViewHolder(holder: requestAdapter.ViewHolder, position: Int) {
             holder.tvEmail.text = mArrayRequest[position]
             holder.btnOK.text = "취소"
+            //친구 요청 취소 클릭리스너
             holder.btnOK.setOnClickListener {
                 val url = SERVER_URL+"friend_request"
                 val params = HashMap<String, String>()
@@ -141,7 +142,7 @@ class requestRecvFragment:Fragment() {
             }
         }
     }
-
+    //친구 요청받은 리스트에 대한 서버 통신 요청
     fun requestRecv(){
         val url = SERVER_URL+"friend_list"
         val params = HashMap<String, String>()
@@ -155,7 +156,7 @@ class requestRecvFragment:Fragment() {
                 if(response.getString("result").equals("success")){
                     Log.i("success!!",response.toString())
                     mResult = response
-                    drawListReceive()
+                    drawReceive()
                 }
             },
             Response.ErrorListener {error->
@@ -163,8 +164,8 @@ class requestRecvFragment:Fragment() {
             })
         Volley.newRequestQueue(context).add(request)
     }
-
-    fun drawListReceive(){
+    //응답으로 온 친구 요청받은 리스트 파싱 후 리사이클러뷰에 적용
+    fun drawReceive(){
         mArrayReceive.clear()
         if(!mResult?.getString("friendList").equals("not exist")){
             val items = mResult?.getJSONArray("friendList")
@@ -177,7 +178,7 @@ class requestRecvFragment:Fragment() {
         }
         mAdapterReceive.notifyDataSetChanged()
     }
-
+    //응답으로 온 친구 요청받은 리스트 리사이클러뷰 어댑터
     inner class receiveAdapter() : RecyclerView.Adapter<receiveAdapter.ViewHolder>(){
         inner class ViewHolder : RecyclerView.ViewHolder, View.OnClickListener{
             val tvEmail : TextView
@@ -200,6 +201,7 @@ class requestRecvFragment:Fragment() {
         }
         override fun onBindViewHolder(holder: receiveAdapter.ViewHolder, position: Int) {
             holder.tvEmail.text = mArrayReceive[position]
+            //친구 요청 수락 클릭리스너
             holder.btnOK.setOnClickListener {
                 val url = SERVER_URL+"friend_request"
                 val params = HashMap<String, String>()

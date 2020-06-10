@@ -6,7 +6,7 @@ import android.os.AsyncTask
 import java.net.URL
 
 class URLtoBitmapTask() : AsyncTask<Void, Void, Bitmap>() {
-    //액티비티에서 설정해줌
+    //URl 비트맵 변환 클래스
     lateinit var url: URL
     override fun doInBackground(vararg params: Void?): Bitmap {
         val bitmap = BitmapFactory.decodeStream(url.openStream())

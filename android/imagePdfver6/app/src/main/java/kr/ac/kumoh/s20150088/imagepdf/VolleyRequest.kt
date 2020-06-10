@@ -8,7 +8,7 @@ import android.R.attr.data
 import kr.ac.kumoh.s20150088.imagepdf.FileDataPart
 import java.nio.charset.Charset
 
-
+//이미지 파일 전송을 위한 Volley요청 클래스
 open class VolleyFileUploadRequest(
     method: Int,
     url: String,
