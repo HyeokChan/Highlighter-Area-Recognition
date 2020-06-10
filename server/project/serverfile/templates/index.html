@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+     
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="http://bootstrapk.com/favicon.ico">
+ 
+    <title>BusterCallApiServer</title>
+ 
+    <!-- Bootstrap core CSS -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+ 
+    <!-- Custom styles for this template -->
+    <link href="/static/css/starter-template.css" rel="stylesheet">
+ 
+  </head>
+ 
+  <body>
+ 
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">navigation</span>
+          </button>
+          <a class="navbar-brand">B U S T E R C A L L A P I S E R V E R</a>
+        </div>
+      </div>
+    </nav>
+ 
+    <div class="container">
+ 
+      <div class="starter-template">
+        <h1>BUSTER CALL API CENTER</h1>
+        <p class="lead">버스터콜의 API 센터입니다. <br>추후 여러 API 명세들이 아래로 추가가 될 것. </p>
+      </div>
+ 
+    </div><!-- /.container -->
+
+    <div class="container">
+	    <h4>/ocr의 명세</h4>
+	    <table class="table">
+		    <thead>
+			    <tr>
+			    	<th>HOST</th>
+			    	<th>Parameter</th>
+			    	<th>Value Type</th>
+			    	<th>Protocol</th>
+			    	<th>Return Value</th>
+			    </tr>
+		    </thead>
+		    <tbody>
+			    <tr>
+				    <td>bustercallapi.r-e.kr/ocr</td>
+			    </tr>
+			    <tr>
+				    <td></td>
+				    <td>image</td>
+				    <td>originImage</td>
+				    <td>POST</td>
+			    </tr>
+			    <tr>
+				    <td></td>
+				    <td>accessToken</td>
+				    <td>String</td>
+				    <td>POST</td>
+			    </tr>
+			    <tr>
+				    <td>↓</td>
+				    <td>↓</td>
+				    <td>↓</td>
+				    <td>↓</td>
+			    </tr>
+			    <tr>
+				    <td>RESPONSE</td>
+				    <td>message</td>
+				    <td>String</td>
+				    <td></td>
+				    <td>JSON</td>
+			    </tr>
+			 
+		    </tbody>
+	    </table>
+	    <h4> /register 의 명세</h4>
+	    <table class="table">
+		    <thead>
+			    <tr>
+			    	<th>HOST</th>
+			    	<th>Parameter</th>
+			    	<th>Value Type</th>
+			    	<th>Protocol</th>
+			    	<th>Return Value</th>
+			    </tr>
+		    </thead>
+		    <tbody>
+			    <tr>
+				    <td>bustercallapi.r-e.kr/register</td>
+			    </tr>
+			    <tr>
+				    <td></td>
+				    <td>email</td>
+				    <td>String</td>
+				    <td>POST</td>
+			    </tr>
+			    <tr>
+				    <td></td>
+				    <td>password</td>
+				    <td>String</td>
+				    <td>POST</td>
+				</tr>
+				<tr>
+				    <td></td>
+				    <td>uuid</td>
+				    <td>String</td>
+				    <td>POST</td>
+			    </tr>
+			    <tr>
+				    <td>↓</td>
+				    <td>↓</td>
+				    <td>↓</td>
+				    <td>↓</td>
+			    </tr>
+			    <tr>
+				    <td>RESPONSE</td>
+				    <td>message</td>
+				    <td>String</td>
+				    <td></td>
+				    <td>JSON</td>
+			    </tr>
+			 
+		    </tbody>
+	    </table>
+	    <h4>/login의 명세</h4>
+	    <table class="table">
+		    <thead>
+			    <tr>
+			    	<th>HOST</th>
+			    	<th>Parameter</th>
+			    	<th>Value Type</th>
+			    	<th>Protocol</th>
+			    	<th>Return Value</th>
+			    </tr>
+		    </thead>
+		    <tbody>
+			    <tr>
+				    <td>bustercallapi.r-e.kr/login</td>
+			    </tr>
+			    <tr>
+				    <td></td>
+				    <td>email</td>
+				    <td>String</td>
+				    <td>POST</td>
+			    </tr>
+			    <tr>
+				    <td></td>
+				    <td>password</td>
+				    <td>String</td>
+				    <td>POST</td>
+			    </tr>
+			    <tr>
+				    <td>↓</td>
+				    <td>↓</td>
+				    <td>↓</td>
+				    <td>↓</td>
+			    </tr>
+			    <tr>
+				    <td>RESPONSE</td>
+				    <td>message</td>
+				    <td>String</td>
+				    <td></td>
+				    <td>JSON</td>
+			    </tr>
+			 
+		    </tbody>
+		</table>
+	</div>
+  
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+ 
+</body></html>
+
+
